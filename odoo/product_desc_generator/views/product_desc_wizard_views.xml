@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 弹窗表单：显示生成文本，可微调，确认写入 / 取消 -->
+    <record id="product_desc_wizard_form" model="ir.ui.view">
+        <field name="name">product.desc.wizard.form</field>
+        <field name="model">product.desc.wizard</field>
+        <field name="arch" type="xml">
+            <form string="AI 生成产品描述">
+                <group>
+                    <field name="product_id"/>
+                    <field name="generated_text" colspan="2"/>
+                </group>
+                <footer>
+                    <button name="action_write_desc" type="object"
+                            string="确认写入" class="btn-primary"/>
+                    <button string="取消" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_desc_wizard_act" model="ir.actions.act_window">
+        <field name="name">AI 生成产品描述</field>
+        <field name="res_model">product.desc.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

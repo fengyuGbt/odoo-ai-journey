@@ -37,8 +37,8 @@
 ## 动手任务
 
 - [x] 建 `llm.service` 模型，封装 chat 方法（含 Key 读取、错误处理、超时、重试、模型降级）——`odoo/llm_service/` 第一版已跑通
-- [ ] `product.template` 加"生成英文描述"按钮，调 `llm.service`（下一步）
-- [ ] 把描述生成提示词抽成数据库模板
+- [x] `product.template` 加"生成英文描述"按钮，调 `llm.service`——`odoo/product_desc_generator/` 逻辑链已跑通（mock 验证：按钮→弹窗→微调→写入；真实 API 高峰期 429 待补测）
+- [ ] 把描述生成提示词抽成数据库模板（v2）
 - [ ] 用 CRM 里 3 条历史成交邮件做 few-shot，对比 zero-shot 效果（记录差异）
 
 ## 🛠 实测记录（2026-09-15）

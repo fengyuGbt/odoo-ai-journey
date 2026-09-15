@@ -26,7 +26,7 @@ Odoo 内统一的大模型 API 封装，对应《动手学大模型》Ch2 的工
     """,
     "author": "odoo-ai-journey contributors",
     "website": "https://github.com/fengyuGbt/odoo-ai-journey",
-    "license": "MIT",
+    "license": "LGPL-3",
     "depends": ["base"],
     "data": [],
     "installable": True,
