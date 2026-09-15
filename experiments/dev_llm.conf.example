@@ -1,0 +1,12 @@
+[options]
+# Odoo 19 开发配置模板（llm_service 测试专用：独立端口/独立库，不碰生产）
+# 使用：复制为 dev_llm.conf 并填入真实密码（勿提交真实配置到仓库）
+db_host = localhost
+db_port = 5432
+db_user = odoo
+db_password = <your-db-password>
+addons_path = /home/<user>/odoo-19.0/addons,/home/<user>/custom_addons,/home/<user>/odoo-ai-journey/odoo
+http_port = 8070
+logfile = /var/log/odoo/dev_llm.log
+log_level = info
+list_db = True

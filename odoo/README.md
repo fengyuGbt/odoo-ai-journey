@@ -7,7 +7,7 @@
 
 | 模块名 | 对应笔记 | 功能 | 状态 |
 |---|---|---|---|
-| `llm_service` | Ch2 / 工程三件套 | LLM API 统一封装（Key 管理、chat、工具调用） | ⬜ 规划 |
+| `llm_service` | Ch2 / 工程三件套 | LLM API 统一封装（Key 管理、chat、重试降级） | 🚧 第一版已跑通（2026-09-15） |
 | `product_desc_generator` | Ch2 | 产品描述自动生成按钮（`product.template`） | ⬜ 规划 |
 | `order_agent` | 工程三件套 | 自然语言查客户订单（RAG + function calling + eval） | ⬜ 规划 |
 | `doc_ocr` | Ch8 | 发票/合同识别流水线（附件 → 视觉 API → 预填） | ⬜ 规划 |
