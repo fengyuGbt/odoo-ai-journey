@@ -1,79 +1,114 @@
 # Odoo AI Journey
 
-> 以 **Odoo 工程为背景**，系统学习大模型（LLM）的实战笔记与开源项目。
-> Learning Large Language Models hands-on, **through the lens of Odoo ERP development**.
+> Hands-on notes and an open-source project for learning Large Language Models (LLMs) **through the lens of Odoo ERP development**.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 为什么有这个项目
+**English** | [中文](README.zh-CN.md)
 
-很多 LLM 教程（如上海交大《动手学大模型》）讲的是**模型原理与训练**，
-而大多数开发者（包括作者）实际在做的是**把 LLM 集成进业务系统**——比如开源 ERP（Odoo）。
+---
 
-两者之间的桥——RAG、function calling、eval 测试集、异步推理、权限与安全——
-恰恰是课程没讲、但生产开发天天要用的。
+## Why this project
 
-这个项目把两者合起来学：
+Most LLM tutorials (such as SJTU's [*Dive into LLMs*](https://github.com/Lordog/dive-into-llms)) focus on **model fundamentals and training**. But most developers (including the author) are actually **integrating LLMs into business systems** — like the open-source ERP, Odoo.
 
-1. 逐章整理《动手学大模型》的知识点（课程为经）
-2. 每章映射到一个 **Odoo 真实业务场景**（Odoo 为纬）
-3. 补充课程缺失的 **LLM 工程三件套**：RAG / function calling / eval
+The bridge between the two — RAG, function calling, eval sets, async inference, permissions & security — is exactly what the course doesn't cover but production development needs every day.
 
-**作者背景**：正在系统学习 Python 与 AI/LLM 的开发者，在开源 ERP（Odoo）上做 AI Agent 开发。
+This project learns both at once:
 
-## 学习路径（建议顺序）
+1. **Course as warp**: chapter-by-chapter notes for *Dive into LLMs*
+2. **Odoo as weft**: each chapter mapped to a real Odoo business scenario
+3. **Engineering toolkit**: fills the gaps the course misses — RAG / function calling / eval
 
-| 阶段 | 内容 | 对应笔记 |
+**Author background**: a developer systematically learning Python & AI/LLM, building AI Agent features on Odoo.
+
+## Status (Wave 1 & Wave 2 shipped)
+
+| Wave | Deliverable | Status |
 |---|---|---|
-| 1 · 立刻能用 | Ch2 提示学习与思维链 → 做 Odoo 产品描述生成 | `docs/01-*.md` |
-| 2 · 补齐工程 | RAG + function calling + eval（课程没讲） | `docs/11-engineering-toolkit.md` |
-| 3 · ERP 刚需 | Ch8 多模态单据识别 · Ch1 文本分类 · Ch6 越狱安全 | `docs/03/02/04-*.md` |
-| 4 · agent 上线 | Ch10 智能体评估 · 建风险测试集 | `docs/05-*.md` |
-| 5 · 理解取舍 | Ch4 推理 · Ch9 GUI agent · Ch3 知识编辑 | `docs/06/07/08-*.md` |
-| 6 · 扩展认知 | Ch5 水印 · Ch7 隐写 · Ch11 RLHF | `docs/09/10-*.md` |
+| 1 | `llm_service` — production-grade LLM API wrapper for Odoo (config-driven via `ir.config_parameter`, zero third-party deps, 429/5xx retry + model fallback) | ✅ Tested live |
+| 2 | `product_desc_generator` — "AI Generate Description" button on product form (few-shot prompt → wizard preview/edit → write `description_sale`) | 🚧 Logic chain tested (mocked), live API pending off-peak retest |
 
-优先级总览见 [`docs/00-roadmap.md`](docs/00-roadmap.md)。
+Every wave ships with real **pitfall logs** in `docs/logs/` — the failures are as valuable as the code.
 
-## 目录结构
+## Repository layout
 
 ```
 .
-├── README.md                 # 项目介绍（本文件）
+├── README.md                 # Project intro (this file, English)
+├── README.zh-CN.md           # 中文版项目介绍
 ├── LICENSE                   # MIT License
-├── docs/                     # 全部知识笔记（Markdown）
-│   ├── 00-roadmap.md         # 学习路线图 + 优先级矩阵
-│   ├── 01-ch2-prompt-and-cot.md        # Ch2 提示学习与思维链 ★★★★★
-│   ├── 02-ch1-finetune-and-deploy.md   # Ch1 微调与部署
-│   ├── 03-ch8-multimodal.md            # Ch8 多模态模型
-│   ├── 04-ch6-jailbreak.md             # Ch6 越狱攻击
-│   ├── 05-ch10-agent-safety-eval.md    # Ch10 智能体安全评估 ★★★★★
-│   ├── 06-ch4-reasoning.md             # Ch4 数学推理
-│   ├── 07-ch9-gui-agent.md             # Ch9 GUI 智能体
-│   ├── 08-ch3-knowledge-editing.md     # Ch3 知识编辑
-│   ├── 09-ch5-ch7-watermark-stego.md   # Ch5 水印 · Ch7 隐写
-│   ├── 10-ch11-rlhf.md                 # Ch11 RLHF 对齐
-│   └── 11-engineering-toolkit.md       # 工程三件套：RAG / function calling / eval
-│   └── 12-publishing-workflow.md       # 逐章发布工作流（一章节一章节往上走）
-└── odoo/                     # Odoo 实验模块（规划与代码，逐步补充）
-    └── README.md
+├── docs/                     # All knowledge notes (Markdown)
+│   ├── 00-roadmap.md         # Learning roadmap + priority matrix
+│   ├── 01-ch2-prompt-and-cot.md        # Ch2 Prompting & CoT ★★★★★ (completed)
+│   ├── 02-ch1-finetune-and-deploy.md   # Ch1 Fine-tuning & deployment
+│   ├── 03-ch8-multimodal.md            # Ch8 Multimodal models
+│   ├── 04-ch6-jailbreak.md             # Ch6 Jailbreak attacks
+│   ├── 05-ch10-agent-safety-eval.md    # Ch10 Agent safety & eval ★★★★★
+│   ├── 06-ch4-reasoning.md             # Ch4 Math reasoning
+│   ├── 07-ch9-gui-agent.md             # Ch9 GUI agents
+│   ├── 08-ch3-knowledge-editing.md     # Ch3 Knowledge editing
+│   ├── 09-ch5-ch7-watermark-stego.md   # Ch5 Watermarking · Ch7 Steganography
+│   ├── 10-ch11-rlhf.md                 # Ch11 RLHF alignment
+│   ├── 11-engineering-toolkit.md       # RAG / function calling / eval
+│   ├── 12-publishing-workflow.md       # Wave-by-wave publishing workflow
+│   └── logs/                 # Real pitfall logs (rate-limit, Odoo 19 API diffs, ...)
+├── odoo/                     # Odoo experiment modules
+│   ├── README.md
+│   ├── llm_service/          # Wave 1: LLM API wrapper (llm.service)
+│   └── product_desc_generator/  # Wave 2: AI product description button
+└── experiments/              # Verification scripts (key check, smoke tests, probes)
 ```
 
-## 如何学习（给读者）
+## Quick start
 
-- 按 `docs/00-roadmap.md` 的顺序读，每章笔记结构统一：
-  **这一章在讲什么 → Odoo 落地场景 → 工程要点 → 动手任务**
-- 笔记里的「动手任务」都设计成可在 Odoo 社区版上完成的小功能
-- 建议配合 [上海交大《动手学大模型》](https://github.com/Lordog/dive-into-llms) 原课程阅读
+**Prerequisites**: Odoo 19 source environment (the module targets Odoo 19 APIs), Python 3.
 
-## 路线图（Roadmap）
+1. Put the modules on your addons path:
+   ```ini
+   # in your odoo.conf
+   addons_path = ...,/path/to/odoo-ai-journey/odoo
+   ```
+2. Install the modules on a dev database:
+   ```bash
+   odoo-bin -d <dev_db> -i llm_service,product_desc_generator --stop-after-init
+   ```
+3. Configure your LLM API key via system parameters (no hardcoding):
+   - `llm_service.api_key` — your key (Zhipu BigModel / DeepSeek / any OpenAI-compatible service)
+   - `llm_service.base_url` — default `https://open.bigmodel.cn/api/paas/v4`
+   - `llm_service.default_model` — default `glm-4.7-flash`
+   - `llm_service.models` — comma-separated fallback models (auto-switch on 429)
+   - `llm_service.retries` / `llm_service.timeout` — retry count / timeout
+4. Smoke test from the odoo shell:
+   ```bash
+   odoo-bin shell -d <dev_db> --no-http < experiments/test_llm_service.py
+   ```
 
-- [x] 知识框架与 11 章 × Odoo 映射整理
-- [ ] Ch2 + Odoo 产品描述生成模块（`llm.service` 封装）
-- [ ] 工程三件套 demo：自然语言查客户订单（RAG + function calling + eval）
-- [ ] 多模态单据识别流水线（发票 / 合同 / 报关单）
-- [ ] agent 安全测试集与权限白名单
-- [ ] 拆文章发布：英文 → dev.to，中文 → 知乎
+> Free-tier APIs (e.g. Zhipu GLM) can hit sustained 429s during peak hours — the `llm_service` wrapper retries with exponential backoff and falls back to a secondary model. See `docs/logs/2026-09-15-llm-service-限流重试.md`.
 
-## 许可
+## Learning path (recommended order)
+
+| Stage | Content | Notes |
+|---|---|---|
+| 1 · Usable today | Ch2 Prompting & CoT → product description generator | `docs/01-*.md` |
+| 2 · Engineering | RAG + function calling + eval (not in the course) | `docs/11-engineering-toolkit.md` |
+| 3 · ERP essentials | Ch8 multimodal document parsing · Ch1 text classification · Ch6 jailbreak safety | `docs/03/02/04-*.md` |
+| 4 · Agent to prod | Ch10 agent evaluation · build a risk eval set | `docs/05-*.md` |
+| 5 · Understand trade-offs | Ch4 reasoning · Ch9 GUI agents · Ch3 knowledge editing | `docs/06/07/08-*.md` |
+| 6 · Broader view | Ch5 watermarking · Ch7 steganography · Ch11 RLHF | `docs/09/10-*.md` |
+
+Priority overview: [`docs/00-roadmap.md`](docs/00-roadmap.md).
+
+## Roadmap
+
+- [x] Knowledge framework + 11-chapter × Odoo mapping
+- [x] Ch2 + Odoo module: `llm_service` wrapper (live-tested)
+- [x] Ch2 + Odoo module: `product_desc_generator` button (logic tested, live API pending retest)
+- [ ] Engineering toolkit demo: natural-language customer order lookup (RAG + function calling + eval)
+- [ ] Multimodal document parsing pipeline (invoices / contracts / customs forms)
+- [ ] Agent safety eval set & permission whitelist
+- [ ] Publish chapters: English → dev.to, Chinese → Zhihu
+
+## License
 
 [MIT License](LICENSE)
