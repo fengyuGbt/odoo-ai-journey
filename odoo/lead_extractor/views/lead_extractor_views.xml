@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="lead_extractor_wizard_form" model="ir.ui.view">
+        <field name="name">lead.extractor.wizard.form</field>
+        <field name="model">lead.extractor.wizard</field>
+        <field name="arch" type="xml">
+            <form string="AI 询盘抽取">
+                <group>
+                    <field name="raw_text" placeholder="粘贴客户询盘 / 邮件原文…"/>
+                </group>
+                <group>
+                    <button name="action_extract" type="object"
+                            string="AI 抽取" class="btn-primary"/>
+                </group>
+                <group string="抽取结果（核对后创建商机）"
+                       invisible="not extracted">
+                    <field name="product"/>
+                    <field name="quantity"/>
+                    <field name="budget"/>
+                    <field name="deadline"/>
+                    <field name="customer"/>
+                </group>
+                <footer>
+                    <button name="action_create_lead" type="object"
+                            string="创建商机" class="btn-primary"
+                            invisible="not extracted"/>
+                    <button string="取消" class="btn-link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="act_open_lead_extractor_wizard" model="ir.actions.act_window">
+        <field name="name">AI 询盘抽取</field>
+        <field name="res_model">lead.extractor.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_lead_extractor"
+              name="AI 询盘抽取"
+              parent="crm.crm_menu_root"
+              action="act_open_lead_extractor_wizard"/>
+</odoo>
