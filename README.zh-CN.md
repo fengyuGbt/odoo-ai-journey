@@ -23,12 +23,14 @@
 
 **作者背景**：正在系统学习 Python 与 AI/LLM 的开发者，在开源 ERP（Odoo）上做 AI Agent 开发。
 
-## 当前进度（第 1、2 波已发布）
+## 当前进度（第 1–4 波已发布）
 
 | 波次 | 交付 | 状态 |
 |---|---|---|
 | 1 | `llm_service` — Odoo 内生产级 LLM API 封装（配置化、零第三方依赖、429/5xx 重试 + 模型降级） | ✅ 真实调用已跑通 |
-| 2 | `product_desc_generator` — 产品表单"AI 生成描述"按钮（few-shot → 弹窗确认/微调 → 写入 description_sale） | 🚧 逻辑链已跑通（mock 验证），真实 API 待低谷补测 |
+| 2 | `product_desc_generator` — 产品表单"AI 生成描述"按钮（few-shot → 弹窗确认/微调 → 写入 description_sale） | ✅ 真实 API 补测通过 |
+| 3 | 双语 README — 本文件（中文） + `README.md`（英文） | ✅ 已发布 |
+| 4 | `lead_extractor` — L2 结构化抽取：自由文本询盘 → 产品/数量/预算/交期/客户 → 弹窗预览 → 创建 `crm.lead`（few-shot 提示词 + 严格解析 + 自纠正） | ✅ mock + 真实 API 均通过 |
 
 每一波都配套 `docs/logs/` 里的**真实踩坑日志**——踩过的坑和代码一样有价值。
 
@@ -53,11 +55,13 @@
 │   ├── 10-ch11-rlhf.md                 # Ch11 RLHF 对齐
 │   ├── 11-engineering-toolkit.md       # 工程三件套：RAG / function calling / eval
 │   ├── 12-publishing-workflow.md       # 逐章发布工作流（一章节一章节往上走）
+│   └── 13-l2-structured-extraction.md  # L2 结构化抽取笔记 ✅
 │   └── logs/                 # 真实踩坑日志（限流重试、Odoo 19 API 差异等）
 ├── odoo/                     # Odoo 实验模块
 │   ├── README.md
 │   ├── llm_service/          # 第 1 波：LLM API 统一封装（llm.service）
-│   └── product_desc_generator/  # 第 2 波：产品描述 AI 生成按钮
+│   ├── product_desc_generator/  # 第 2 波：产品描述 AI 生成按钮
+│   └── lead_extractor/       # 第 4 波：询盘 → 商机（L2 结构化抽取）
 └── experiments/              # 验证脚本（Key 检测、冒烟测试、结构探查）
 ```
 
@@ -72,8 +76,9 @@
    ```
 2. 在开发库安装模块：
    ```bash
-   odoo-bin -d <dev_db> -i llm_service,product_desc_generator --stop-after-init
+   odoo-bin -d <dev_db> -i llm_service,product_desc_generator,lead_extractor --stop-after-init
    ```
+   > `lead_extractor` 依赖 `crm` 模块（会自动安装）。
 3. 通过系统参数配置 API Key（不硬编码）：
    - `llm_service.api_key` — 你的 Key（智谱 BigModel / DeepSeek / 任意 OpenAI 兼容服务）
    - `llm_service.base_url` — 默认 `https://open.bigmodel.cn/api/paas/v4`
@@ -104,7 +109,8 @@
 
 - [x] 知识框架与 11 章 × Odoo 映射整理
 - [x] Ch2 + Odoo 模块：`llm_service` 封装（真实调用已跑通）
-- [x] Ch2 + Odoo 模块：`product_desc_generator` 按钮（逻辑链已跑通，真实 API 待补测）
+- [x] Ch2 + Odoo 模块：`product_desc_generator` 按钮（真实 API 补测通过）
+- [x] L2 + Odoo 模块：`lead_extractor` 询盘 → 商机（真实 API 通过）
 - [ ] 工程三件套 demo：自然语言查客户订单（RAG + function calling + eval）
 - [ ] 多模态单据识别流水线（发票 / 合同 / 报关单）
 - [ ] agent 安全测试集与权限白名单

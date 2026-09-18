@@ -22,12 +22,14 @@ This project learns both at once:
 
 **Author background**: a developer systematically learning Python & AI/LLM, building AI Agent features on Odoo.
 
-## Status (Wave 1 & Wave 2 shipped)
+## Status (Waves 1–4 shipped)
 
 | Wave | Deliverable | Status |
 |---|---|---|
 | 1 | `llm_service` — production-grade LLM API wrapper for Odoo (config-driven via `ir.config_parameter`, zero third-party deps, 429/5xx retry + model fallback) | ✅ Tested live |
-| 2 | `product_desc_generator` — "AI Generate Description" button on product form (few-shot prompt → wizard preview/edit → write `description_sale`) | 🚧 Logic chain tested (mocked), live API pending off-peak retest |
+| 2 | `product_desc_generator` — "AI Generate Description" button on product form (few-shot prompt → wizard preview/edit → write `description_sale`) | ✅ Tested live (real API, off-peak retest passed) |
+| 3 | Bilingual README — this file (English) + `README.zh-CN.md` (中文) | ✅ Shipped |
+| 4 | `lead_extractor` — structured extraction L2: free-text inquiry → product / qty / budget / deadline / customer → wizard preview → create `crm.lead` (few-shot prompt + strict parser + self-correction) | ✅ Tested live (mock + real API) |
 
 Every wave ships with real **pitfall logs** in `docs/logs/` — the failures are as valuable as the code.
 
@@ -52,11 +54,13 @@ Every wave ships with real **pitfall logs** in `docs/logs/` — the failures are
 │   ├── 10-ch11-rlhf.md                 # Ch11 RLHF alignment
 │   ├── 11-engineering-toolkit.md       # RAG / function calling / eval
 │   ├── 12-publishing-workflow.md       # Wave-by-wave publishing workflow
+│   └── 13-l2-structured-extraction.md  # L2: structured extraction notes ✅
 │   └── logs/                 # Real pitfall logs (rate-limit, Odoo 19 API diffs, ...)
 ├── odoo/                     # Odoo experiment modules
 │   ├── README.md
 │   ├── llm_service/          # Wave 1: LLM API wrapper (llm.service)
-│   └── product_desc_generator/  # Wave 2: AI product description button
+│   ├── product_desc_generator/  # Wave 2: AI product description button
+│   └── lead_extractor/       # Wave 4: inquiry → crm.lead (structured extraction)
 └── experiments/              # Verification scripts (key check, smoke tests, probes)
 ```
 
@@ -71,8 +75,9 @@ Every wave ships with real **pitfall logs** in `docs/logs/` — the failures are
    ```
 2. Install the modules on a dev database:
    ```bash
-   odoo-bin -d <dev_db> -i llm_service,product_desc_generator --stop-after-init
+   odoo-bin -d <dev_db> -i llm_service,product_desc_generator,lead_extractor --stop-after-init
    ```
+   > `lead_extractor` depends on the `crm` module (auto-installed).
 3. Configure your LLM API key via system parameters (no hardcoding):
    - `llm_service.api_key` — your key (Zhipu BigModel / DeepSeek / any OpenAI-compatible service)
    - `llm_service.base_url` — default `https://open.bigmodel.cn/api/paas/v4`
@@ -103,7 +108,8 @@ Priority overview: [`docs/00-roadmap.md`](docs/00-roadmap.md).
 
 - [x] Knowledge framework + 11-chapter × Odoo mapping
 - [x] Ch2 + Odoo module: `llm_service` wrapper (live-tested)
-- [x] Ch2 + Odoo module: `product_desc_generator` button (logic tested, live API pending retest)
+- [x] Ch2 + Odoo module: `product_desc_generator` button (live-tested)
+- [x] L2 + Odoo module: `lead_extractor` inquiry → crm.lead (live-tested)
 - [ ] Engineering toolkit demo: natural-language customer order lookup (RAG + function calling + eval)
 - [ ] Multimodal document parsing pipeline (invoices / contracts / customs forms)
 - [ ] Agent safety eval set & permission whitelist
